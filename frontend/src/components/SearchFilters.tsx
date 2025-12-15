@@ -2,12 +2,7 @@
 
 import React, { useState } from 'react';
 import { Download } from 'lucide-react';
-
-interface FilterState {
-    search: string;
-    exchange: string;
-    status: string;
-}
+import { FilterState } from '../types';
 
 interface SearchFiltersProps {
   onFilter: (filters: FilterState) => void;
@@ -24,9 +19,8 @@ const initialFilters: FilterState = {
 export default function SearchFilters({ onFilter, onReset, onDownload }: SearchFiltersProps) {
   const [filters, setFilters] = useState<FilterState>(initialFilters);
 
-  const handleChange = (field: keyof FilterState, value: string) => {
-    
-    const newFilters = { ...filters, [field]: value } as FilterState; 
+  const handleChange = <K extends keyof FilterState>(field: K, value: FilterState[K]) => {
+    const newFilters: FilterState = { ...filters, [field]: value };
     setFilters(newFilters);
     onFilter(newFilters);
   };
@@ -85,7 +79,7 @@ export default function SearchFilters({ onFilter, onReset, onDownload }: SearchF
           </label>
           <select
             value={filters.exchange}
-            onChange={(e) => handleChange("exchange", e.target.value)}
+            onChange={(e) => handleChange("exchange", e.target.value as FilterState['exchange'])}
             className={inputStyle}
           >
             <option className='bg-gray-900'>All Exchanges</option>
@@ -102,7 +96,7 @@ export default function SearchFilters({ onFilter, onReset, onDownload }: SearchF
           <div className="flex gap-2 w-full">
             <select
               value={filters.status}
-              onChange={(e) => handleChange("status", e.target.value)}
+              onChange={(e) => handleChange("status", e.target.value as FilterState['status'])}
               className="flex-1 px-3 py-2 border border-gray-700 bg-gray-950 text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option className='bg-gray-900'>All Statuses</option>
