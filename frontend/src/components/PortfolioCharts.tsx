@@ -49,7 +49,7 @@ export default function PortfolioCharts({
   
   const renderPieChart = () => {
     let startAngle = 0;
-    const slices: JSX.Element[] = [];
+    const slices: React.ReactNode[] = [];
     
     const ANGLE_OFFSET = -Math.PI / 2;
 
